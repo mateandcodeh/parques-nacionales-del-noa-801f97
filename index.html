@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parques Nacionales del NOA - Flora y Fauna</title>
+<style>
+    :root {
+        --primary: #2c5e1a;
+        --secondary: #5a9240;
+        --light: #f5f7f2;
+        --dark: #1a1a1a;
+        --accent: #d97706;
+        --border: #e5e7eb;
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    .gallery figure {
+        flex: 1 1 300px;
+        margin: 0;
+    }
+    .gallery img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #f0f0f0;
+    }
+    .gallery figcaption {
+        font-size: 0.875rem;
+        color: #4b5563;
+        margin-top: 6px;
+        text-align: center;
+        line-height: 1.4;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--dark);
+        background: var(--light);
+        font-size: 16px;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+    
+    header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        padding: 32px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    header h1 {
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+        font-weight: 700;
+    }
+    
+    header p {
+        font-size: 1rem;
+        opacity: 0.95;
+        max-width: 800px;
+    }
+    
+    nav {
+        background: white;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    nav h2 {
+        font-size: 1.125rem;
+        margin-bottom: 12px;
+        color: var(--primary);
+    }
+    
+    .toc {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .toc li {
+        flex: 0 0 auto;
+    }
+    
+    .toc a {
+        display: inline-block;
+        padding: 8px 16px;
+        background: var(--light);
+        color: var(--primary);
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+    }
+    
+    .toc a:hover, .toc a:focus {
+        background: var(--secondary);
+        color: white;
+        border-color: var(--secondary);
+        transform: translateY(-1px);
+    }
+    
+    main {
+        padding: 32px 0;
+    }
+    
+    .park-section {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        border: 1px solid var(--border);
+        scroll-margin-top: 140px;
+    }
+    
+    .park-section h2 {
+        color: var(--primary);
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--secondary);
+    }
+    
+    .park-section h3 {
+        color: var(--secondary);
+        font-size: 1.125rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+    
+    .park-section p {
+        margin-bottom: 12px;
+        color: #374151;
+    }
+    
+    .park-section ul {
+        margin-left: 20px;
+        margin-bottom: 16px;
+    }
+    
+    .park-section ul li {
+        margin-bottom: 6px;
+        color: #4b5563;
+    }
+    
+    .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+        margin-bottom: 2px;
+    }
+
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .social-link:hover, .social-link:focus {
+        transform: translateY(-1px);
+        opacity: 0.88;
+    }
+
+    .social-link.instagram { background: #c13584; }
+    .social-link.facebook { background: #1877f2; }
+
+    .official-link {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 10px 20px;
+        background: var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: 2px solid var(--primary);
+    }
+    
+    .official-link:hover, .official-link:focus {
+        background: white;
+        color: var(--primary);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    footer {
+        background: var(--primary);
+        color: white;
+        text-align: center;
+        padding: 24px 0;
+        margin-top: 40px;
+    }
+    
+    footer p {
+        font-size: 0.875rem;
+        opacity: 0.9;
+    }
+    
+    .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--accent);
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 99;
+    }
+    
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .back-to-top:hover {
+        background: #b45309;
+        transform: translateY(-2px);
+    }
+    
+    @media (min-width: 768px) {
+        header h1 {
+            font-size: 2.5rem;
+        }
+        
+        header p {
+            font-size: 1.125rem;
+        }
+        
+        .park-section {
+            padding: 32px;
+        }
+        
+        .toc a {
+            font-size: 1rem;
+        }
+        
+        .park-section h2 {
+            font-size: 1.875rem;
+        }
+    }
+    
+    @media (max-width: 390px) {
+        header {
+            padding: 24px 0;
+        }
+        
+        header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .park-section {
+            padding: 16px;
+            border-radius: 8px;
+        }
+        
+        .toc {
+            gap: 6px;
+        }
+        
+        .toc a {
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+        }
+    }
+</style>
+<style id="lf-tema">html,body{background:#0d1117 !important;color:#e6edf3 !important;font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif !important;font-size:16px !important}</style></head>
+<body>
+    <header id="top">
+        <div class="container">
+            <h1>Parques Nacionales del NOA - Flora y Fauna</h1>
+            <p>El Noroeste Argentino (NOA) alberga una gran diversidad de ecosistemas protegidos. Esta pagina presenta seis parques nacionales de la region, destacando sus caracteristicas ambientales y la biodiversidad que protegen. Cada area conserva especies unicas de flora y fauna adaptadas a los distintos ambientes de la ecorregion andina y selvatica.</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <h2>Indice de Contenidos</h2>
+            <ul class="toc">
+                <li><a href="#baritu">Baritu</a></li>
+                <li><a href="#elrey">El Rey</a></li>
+                <li><a href="#aconquija">Aconquija</a></li>
+                <li><a href="#loscardones">Los Cardones</a></li>
+                <li><a href="#copo">Copo</a></li>
+                <li><a href="#calilegua">Calilegua</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="container">
+            
+            <section id="baritu" class="park-section">
+                <h2>Parque Nacional Baritu</h2>
+            <div class="gallery">
+                <figure>
+                    <img src="parques-noa-assets/baritu-yaguarete.jpg" alt="Yaguareté" loading="lazy">
+                    <figcaption>Yaguareté (Panthera onca) - Especie emblemática de las Yungas. Foto: iNaturalist</figcaption>
+                </figure>
+                <figure>
+                    <img src="parques-noa-assets/baritu-jacaranda.jpg" alt="Jacarandá" loading="lazy">
+                    <figcaption>Jacarandá (Jacaranda mimosifolia) - Árbol de la selva pedemontana. Foto: iNaturalist</figcaption>
+                </figure>
+            </div>
+                <h3>Ecosistema</h3>
+                <p>Ubicado en el norte de Salta, Baritu protege uno de los ultimos sectores de Yungas o Selva Tucumano-Boliviana en estado primitivo. Se caracteriza por un relieve montanoso con clima subtropical humedo y abundantes precipitaciones. La selva se desarrolla en pisos de vegetacion segun la altitud.</p>
+                
+                <h3>Flora</h3>
+                <ul>
+                    <li>Cedro salteno (Cedrela angustifolia)</li>
+                    <li>Lapacho rosado (Handroanthus impetiginosus)</li>
+                    <li>Tipa blanca (Tipuana tipu)</li>
+                    <li>Nogal criollo (Juglans australis)</li>
+                    <li>Helechos arborescentes y lianas</li>
+                </ul>
+                
+                <h3>Fauna</h3>
+                <ul>
+                    <li>Yaguarete (Panthera onca)</li>
+                    <li>Tapir (Tapirus terrestris)</li>
+                    <li>Mono caí (Sapajus cay)</li>
+                    <li>Tucan grande (Ramphastos toco)</li>
+                    <li>Loro alisero (Amazona tucumana)</li>
+                </ul>
+                
+                <div class="social-links" aria-label="Redes sociales">
+                    <a class="social-link instagram" href="https://www.instagram.com/parquenacionalbaritu/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+                    <a class="social-link facebook" href="https://www.facebook.com/PNBaritu/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                </div>
+                
+                <a href="https://www.argentina.gob.ar/parquesnacionales/baritu" class="official-link" target="_blank" rel="noopener noreferrer">Sitio Oficial</a>
+            </section>
+            
+            <section id="elrey" class="park-section">
+                <h2>Parque Nacional El Rey</h2>
+            <div class="gallery">
+                <figure>
+                    <img src="parques-noa-assets/elrey-tapir.jpg" alt="Tapir" loading="lazy">
+                    <figcaption>Tapir (Tapirus terrestris) - Mamífero más grande de Sudamérica, emblema del parque. Foto: iNaturalist</figcaption>
+                </figure>
+                <figure>
+                    <img src="parques-noa-assets/elrey-quebracho.jpg" alt="Horco quebracho" loading="lazy">
+                    <figcaption>Horco quebracho (Schinopsis marginata) - Bosque chaqueño serrano. Foto: iNaturalist</figcaption>
+                </figure>
+            </div>
+                <h3>Ecosistema</h3>
+                <p>Situado tambien en Salta, El Rey conserva una muestra de Yungas y ambiente chaqueño. Presenta valles, serranias y rios que conforman un mosaico de selva montana, bosque chaqueño y pastizales de altura. El clima es subtropical serrano con estacion seca.</p>
+                
+                <h3>Flora</h3>
+                <ul>
+                    <li>Ceibo (Erythrina crista-galli)</li>
+                    <li>Horco quebracho (Schinopsis marginata)</li>
+                    <li>Arrayan (Myrcianthes cisplatensis)</li>
+                    <li>Pino del cerro (Podocarpus parlatorei)</li>
+                    <li>Orquideas y bromelias epifitas</li>
+                </ul>
+                
+                <h3>Fauna</h3>
+                <ul>
+                    <li>Pecari de collar (Pecari tajacu)</li>
+                    <li>Corzuela parda (Mazama gouazoubira)</li>
+                    <li>Puma (Puma concolor)</li>
+                    <li>Surucuá comun (Trogon surrucura)</li>
+                    <li>Rana marsupial yungueña (Gastrotheca gracilis)</li>
+                </ul>
+                
+                <div class="social-links" aria-label="Redes sociales">
+                    <a class="social-link instagram" href="https://www.instagram.com/parquesnacionalesar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+                    <a class="social-link facebook" href="https://www.facebook.com/ParquesNacionalesdeArgentina/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                </div>
+                
+                <a href="https://www.argentina.gob.ar/parquesnacionales/elrey" class="official-link" target="_blank" rel="noopener noreferrer">Sitio Oficial</a>
+            </section>
+            
+            <section id="aconquija" class="park-section">
+                <h2>Parque Nacional Aconquija</h2>
+            <div class="gallery">
+                <figure>
+                    <img src="parques-noa-assets/aconquija-taruca.jpg" alt="Taruca" loading="lazy">
+                    <figcaption>Taruca (Hippocamelus antisensis) - Cérvido en peligro de extinción. Foto: iNaturalist</figcaption>
+                </figure>
+                <figure>
+                    <img src="parques-noa-assets/aconquija-quenioa.jpg" alt="Queñoa" loading="lazy">
+                    <figcaption>Queñoa (Polylepis australis) - Forma los bosques más altos del mundo. Foto: iNaturalist</figcaption>
+                </figure>
+            </div>
+                <h3>Ecosistema</h3>
+                <p>Localizado en Tucuman y Catamarca, Aconquija abarca desde la selva basal hasta los pastizales de altura y ambientes altoandinos. Protege las cuencas hidricas que nacen en las Sierras del Aconquija. Presenta fuertes gradientes altitudinales con diversos microclimas.</p>
+                
+                <h3>Flora</h3>
+                <ul>
+                    <li>Aliso del cerro (Alnus acuminata)</li>
+                    <li>Queñoa (Polylepis australis)</li>
+                    <li>Chilca (Baccharis salicifolia)</li>
+                    <li>Pastizales de festuca y stipa</li>
+                    <li>Laurel del cerro (Phoebe porphyria)</li>
+                </ul>
+                
+                <h3>Fauna</h3>
+                <ul>
+                    <li>Taruca o venado andino (Hippocamelus antisensis)</li>
+                    <li>Condor andino (Vultur gryphus)</li>
+                    <li>Gato andino (Leopardus jacobita)</li>
+                    <li>Guanaco (Lama guanicoe)</li>
+                    <li>Chuña de patas rojas (Cariama cristata)</li>
+                </ul>
+                
+                <div class="social-links" aria-label="Redes sociales">
+                    <a class="social-link instagram" href="https://www.instagram.com/parquenacionalaconquija/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+                    <a class="social-link facebook" href="https://www.facebook.com/ParquesNacionalesdeArgentina/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                </div>
+                
+                <a href="https://www.argentina.gob.ar/parquesnacionales/aconquija" class="official-link" target="_blank" rel="noopener noreferrer">Sitio Oficial</a>
+            </section>
+            
+            <section id="loscardones" class="park-section">
+                <h2>Parque Nacional Los Cardones</h2>
+            <div class="gallery">
+                <figure>
+                    <img src="parques-noa-assets/loscardones-cardon.jpg" alt="Cardón pasacana" loading="lazy">
+                    <figcaption>Cardón pasacana (Trichocereus pasacana) - Cactus gigante emblemático. Foto: iNaturalist</figcaption>
+                </figure>
+                <figure>
+                    <img src="parques-noa-assets/loscardones-guanaco.jpg" alt="Guanaco" loading="lazy">
+                    <figcaption>Guanaco (Lama guanicoe) - Camélido silvestre de la Puna. Foto: iNaturalist</figcaption>
+                </figure>
+            </div>
+                <h3>Ecosistema</h3>
+                <p>En los Valles Calchaquies de Salta, este parque protege ambientes de Prepuna, Monte y sectores de Pastizal Altoandino. El clima es arido con gran amplitud termica. Se destaca por sus paisajes deserticos, formaciones geologicas y extensos cardonales.</p>
+                
+                <h3>Flora</h3>
+                <ul>
+                    <li>Cardon o pasacana (Trichocereus pasacana)</li>
+                    <li>Jarilla (Larrea divaricata)</li>
+                    <li>Brea (Parkinsonia praecox)</li>
+                    <li>Churqui (Prosopis ferox)</li>
+                    <li>Cortadera (Cortaderia speciosa)</li>
+                </ul>
+                
+                <h3>Fauna</h3>
+                <ul>
+                    <li>Zorro gris (Lycalopex gymnocercus)</li>
+                    <li>Guanaco (Lama guanicoe)</li>
+                    <li>Condor andino (Vultur gryphus)</li>
+                    <li>Cuy serrano (Microcavia shiptoni)</li>
+                    <li>Lagartijas del genero Liolaemus</li>
+                </ul>
+                
+                <div class="social-links" aria-label="Redes sociales">
+                    <a class="social-link instagram" href="https://www.instagram.com/parquesnacionalesar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+                    <a class="social-link facebook" href="https://www.facebook.com/parquenacional.loscardones/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                </div>
+                
+                <a href="https://www.argentina.gob.ar/parquesnacionales/loscardones" class="official-link" target="_blank" rel="noopener noreferrer">Sitio Oficial</a>
+            </section>
+            
+            <section id="copo" class="park-section">
+                <h2>Parque Nacional Copo</h2>
+            <div class="gallery">
+                <figure>
+                    <img src="parques-noa-assets/copo-quebracho.jpg" alt="Quebracho colorado" loading="lazy">
+                    <figcaption>Quebracho colorado santiagueño (Schinopsis lorentzii) - Base del bosque chaqueño. Foto: iNaturalist</figcaption>
+                </figure>
+                <figure>
+                    <img src="parques-noa-assets/copo-osohormiguero.jpg" alt="Oso hormiguero gigante" loading="lazy">
+                    <figcaption>Oso hormiguero (Myrmecophaga tridactyla) - Especie vulnerable del Chaco Seco. Foto: iNaturalist</figcaption>
+                </figure>
+            </div>
+                <h3>Ecosistema</h3>
+                <p>Ubicado en el noreste de Santiago del Estero, Copo conserva una porcion del Chaco Seco o Chaco Semiarido. El ambiente dominante es el bosque de quebracho, adaptado a condiciones de escasas lluvias y altas temperaturas. Se protege la cuenca del rio Copo.</p>
+                
+                <h3>Flora</h3>
+                <ul>
+                    <li>Quebracho colorado santiagueno (Schinopsis lorentzii)</li>
+                    <li>Quebracho blanco (Aspidosperma quebracho-blanco)</li>
+                    <li>Mistol (Sarcomphalus mistol)</li>
+                    <li>Algarrobo blanco (Neltuma alba)</li>
+                    <li>Itin o caranday (Trithrinax schizophylla)</li>
+                </ul>
+                
+                <h3>Fauna</h3>
+                <ul>
+                    <li>Quirquincho bola (Tolypeutes matacus)</li>
+                    <li>Chancho quimilero (Parachoerus wagneri)</li>
+                    <li>Oso hormiguero grande (Myrmecophaga tridactyla)</li>
+                    <li>Charata (Ortalis canicollis)</li>
+                    <li>Lampala o boa de las vizcacheras (Boa constrictor occidentalis)</li>
+                </ul>
+                
+                <div class="social-links" aria-label="Redes sociales">
+                    <a class="social-link instagram" href="https://www.instagram.com/parquesnacionalesar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+                    <a class="social-link facebook" href="https://www.facebook.com/ParquesNacionalesdeArgentina/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                </div>
+                
+                <a href="https://www.argentina.gob.ar/parquesnacionales/copo" class="official-link" target="_blank" rel="noopener noreferrer">Sitio Oficial</a>
+            </section>
+            
+            <section id="calilegua" class="park-section">
+                <h2>Parque Nacional Calilegua</h2>
+            <div class="gallery">
+                <figure>
+                    <img src="parques-noa-assets/baritu-yaguarete.jpg" alt="Yaguareté" loading="lazy">
+                    <figcaption>Yaguareté (Panthera onca) - Mayor biodiversidad del país. Foto: iNaturalist</figcaption>
+                </figure>
+                <figure>
+                    <img src="parques-noa-assets/calilegua-tipa.jpg" alt="Tipa colorada" loading="lazy">
+                    <figcaption>Tipa colorada (Pterogyne nitens) - Árbol dominante de la selva pedemontana. Foto: iNaturalist</figcaption>
+                </figure>
+            </div>
+                <h3>Ecosistema</h3>
+                <p>Localizado en Jujuy, Calilegua es la mayor area protegida de Yungas en Argentina. Presenta cuatro pisos de vegetacion: selva pedemontana, selva montana, bosque montano y pastizales de neblina. Posee gran biodiversidad y es fuente de importantes rios.</p>
+                
+                <h3>Flora</h3>
+                <ul>
+                    <li>Tipa colorada (Pterogyne nitens)</li>
+                    <li>Cebil colorado (Anadenanthera colubrina)</li>
+                    <li>Maroma (Ficus maroma)</li>
+                    <li>Palo amarillo (Phyllostylon rhamnoides)</li>
+                    <li>Bromelias y orquideas del genero Oncidium</li>
+                </ul>
+                
+                <h3>Fauna</h3>
+                <ul>
+                    <li>Yaguarete (Panthera onca)</li>
+                    <li>Aguila poma (Spizaetus isidori)</li>
+                    <li>Guacamayo verde (Ara militaris)</li>
+                    <li>Huermul del norte (Hippocamelus antisensis)</li>
+                    <li>Oso melero (Tamandua tetradactyla)</li>
+                </ul>
+                
+                <div class="social-links" aria-label="Redes sociales">
+                    <a class="social-link instagram" href="https://www.instagram.com/parquesnacionalesar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+                    <a class="social-link facebook" href="https://www.facebook.com/pncalilegua/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                </div>
+                
+                <a href="https://www.argentina.gob.ar/parquesnacionales/calilegua" class="official-link" target="_blank" rel="noopener noreferrer">Sitio Oficial</a>
+            </section>
+            
+        </div>
+    </main>
+    
+    <a href="#top" class="back-to-top" id="backToTop" aria-label="Volver arriba">&#8593;</a>
+    
+    <footer>
+        <div class="container">
+            <p>Información recopilada de fuentes oficiales. Imágenes: Wikimedia Commons. Parques Nacionales del Noroeste Argentino.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
